@@ -1,0 +1,49 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'application'
+mainClassName = 'org.hapifhir.formtofhirservice.App'
+
+bootRun {
+	if (project.hasProperty('args')) {
+		args project.args.split(',')
+	}
+}
+
+group = 'org.hapifhir'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.apache.camel.springboot:camel-spring-boot-starter:3.1.0'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.2.6.RELEASE'
+
+
+	compile group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.2'
+
+	compile group: 'org.apache.camel', name: 'camel-fhir', version: '3.1.0'
+	compile group: 'org.apache.camel', name: 'camel-mail', version: '3.1.0'
+
+	compile group: 'ca.uhn.hapi.fhir', name: 'hapi-fhir-structures-r4', version: '4.2.0'
+
+	testCompile group: 'org.apache.camel', name: 'camel-test-spring-junit5', version: '3.0.0-RC2'
+	testCompile group: 'org.apache.camel', name: 'camel-test', version: '3.1.0'
+	testCompile group: 'org.apache.camel', name: 'camel-test-spring', version: '3.1.0'
+	testCompile group: 'com.icegreen', name: 'greenmail', version: '1.5.12'
+
+}
+
+test {
+	useJUnitPlatform()
+}
